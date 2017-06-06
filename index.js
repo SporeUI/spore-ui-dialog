@@ -1,2 +1,2 @@
 // 入口文件
-exports.tip = require('./src/tip.js');
+exports.tip = require('./src/tip');
