@@ -2,6 +2,14 @@
 基本对话框UI
 
 ## Getting Started
+```shell
+npm i --save spore-ui-dialog
+```
+
+```javascript
+var $dialog = require('spore-ui-dialog');
+$dialog.tip('提示文案');
+```
 
 ## Release History
 
