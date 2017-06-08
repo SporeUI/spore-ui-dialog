@@ -93,7 +93,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, ".sui-tip {\n  display: none;\n  position: fixed;\n  margin: 0 auto;\n  top: 50%;\n  left: 50%;\n  opacity: 0;\n  max-width: 200px;\n  overflow: hidden;\n  background-color: rgba(0, 0, 0, 0.8);\n  padding: 10px 20px;\n  font-size: 14px;\n  line-height: 18px;\n  border: none;\n  color: #fff;\n  border-radius: 5px;\n  word-break: break-all;\n  -webkit-transform: translateX(-50%) translateY(-50%);\n          transform: translateX(-50%) translateY(-50%);\n  -webkit-animation: sui-tip-fx 2s ease-in-out;\n          animation: sui-tip-fx 2s ease-in-out;\n}\n.sui-tip-show {\n  display: block;\n}\n@-webkit-keyframes sui-tip-fx {\n  0% {\n    opacity: 0;\n    -webkit-transform: translateX(-50%) translateY(-50%) scale(1.5);\n            transform: translateX(-50%) translateY(-50%) scale(1.5);\n  }\n  10% {\n    opacity: 1;\n    -webkit-transform: translateX(-50%) translateY(-50%) scale(1);\n            transform: translateX(-50%) translateY(-50%) scale(1);\n  }\n  90% {\n    opacity: 1;\n    -webkit-transform: translateX(-50%) translateY(-50%) scale(1);\n            transform: translateX(-50%) translateY(-50%) scale(1);\n  }\n  100% {\n    opacity: 0;\n    -webkit-transform: translateX(-50%) translateY(-50%) scale(1);\n            transform: translateX(-50%) translateY(-50%) scale(1);\n  }\n}\n@keyframes sui-tip-fx {\n  0% {\n    opacity: 0;\n    -webkit-transform: translateX(-50%) translateY(-50%) scale(1.5);\n            transform: translateX(-50%) translateY(-50%) scale(1.5);\n  }\n  10% {\n    opacity: 1;\n    -webkit-transform: translateX(-50%) translateY(-50%) scale(1);\n            transform: translateX(-50%) translateY(-50%) scale(1);\n  }\n  90% {\n    opacity: 1;\n    -webkit-transform: translateX(-50%) translateY(-50%) scale(1);\n            transform: translateX(-50%) translateY(-50%) scale(1);\n  }\n  100% {\n    opacity: 0;\n    -webkit-transform: translateX(-50%) translateY(-50%) scale(1);\n            transform: translateX(-50%) translateY(-50%) scale(1);\n  }\n}\n", ""]);
+exports.push([module.i, ".sui-tip {\n  display: none;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 1000;\n  width: 100%;\n  height: 100%;\n  pointer-events: none;\n  text-align: center;\n  overflow: hidden;\n}\n.sui-tip::before {\n  content: '';\n  display: inline-block;\n  vertical-align: middle;\n  width: 0;\n  height: 100%;\n}\n.sui-tip-content {\n  display: inline-block;\n  max-width: 62%;\n  opacity: 0;\n  overflow: hidden;\n  vertical-align: middle;\n  background-color: rgba(0, 0, 0, 0.8);\n  padding: 10px 20px;\n  border: none;\n  border-radius: 5px;\n  font-size: 14px;\n  text-align: left;\n  line-height: 18px;\n  color: #fff;\n  word-break: break-all;\n  -webkit-animation: sui-tip-fx 2s ease-in-out;\n          animation: sui-tip-fx 2s ease-in-out;\n}\n.sui-tip__show {\n  display: block;\n}\n@-webkit-keyframes sui-tip-fx {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(1.5);\n            transform: scale(1.5);\n  }\n  10% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n  90% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n  100% {\n    opacity: 0;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n}\n@keyframes sui-tip-fx {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(1.5);\n            transform: scale(1.5);\n  }\n  10% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n  90% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n  100% {\n    opacity: 0;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n}\n", ""]);
 
 // exports
 
@@ -607,7 +607,10 @@ var tipbox = null;
 
 function showTip(msg, options) {
 	var conf = $.extend({
-		styles: {},
+		parentNode: null,
+		top: '',
+		bottom: '',
+		zIndex: '',
 		duration: 2000
 	}, options);
 
@@ -615,9 +618,38 @@ function showTip(msg, options) {
 		tipbox = new $tipbox();
 	}
 
-	tipbox.show(msg, {
-		animation: 'sui-tip-fx ' + conf.duration + 'ms ease-in-out'
-	});
+	var styles = {
+		box: {},
+		content: {}
+	};
+	styles.content.animation = 'sui-tip-fx ' + conf.duration + 'ms ease-in-out';
+
+	if (conf.top) {
+		styles.content['vertical-align'] = 'top';
+		styles.content['margin-top'] = conf.top;
+	} else if (conf.bottom) {
+		styles.content['vertical-align'] = 'bottom';
+		styles.content['margin-bottom'] = conf.bottom;
+	}
+
+	if (conf.zIndex) {
+		styles.box['z-index'] = conf.zIndex;
+	}
+
+	var parentNode = null;
+	var curParent = tipbox.root.get(0).parentNode;
+	if (conf.parentNode) {
+		parentNode = $(conf.parentNode).get(0);
+	}
+
+	if (parentNode) {
+		styles.box.position = 'absolute';
+		tipbox.root.appendTo(parentNode);
+	} else if (curParent !== document.body) {
+		tipbox.root.appendTo(document.body);
+	}
+
+	tipbox.show(msg, styles);
 
 	if (tipbox.timer) {
 		clearTimeout(tipbox.timer);
@@ -637,8 +669,21 @@ module.exports = showTip;
 
 __webpack_require__(5);
 
-var TPL = '<div class="sui-tip"></div>';
-var CLASS_SHOW = 'sui-tip-show';
+var TPL = [
+	'<div class="sui-tip">',
+	'  <div role="content" class="sui-tip-content"></div>',
+	'</div>'
+].join('');
+
+var CLASS_SHOW = 'sui-tip__show';
+
+function cleanStyles(styles) {
+	styles = styles || {};
+	Object.keys(styles).forEach(function(key) {
+		styles[key] = '';
+	});
+	return styles;
+}
 
 function TipBox() {
 	this.root = $(TPL);
@@ -648,9 +693,21 @@ function TipBox() {
 TipBox.prototype = {
 	show: function(text, styles) {
 		var that = this;
+		var contentNode = this.root.find('[role="content"]');
+
 		styles = styles || {};
 		this.hide();
-		this.root.css(styles).html(text);
+
+		if (this.prevStyles) {
+			this.root.css(cleanStyles(this.prevStyles.box));
+			contentNode.css(cleanStyles(this.prevStyles.content));
+		}
+
+		this.root.css(styles.box);
+		contentNode.css(styles.content).html(text);
+
+		this.prevStyles = styles;
+
 		setTimeout(function() {
 			that.root.addClass(CLASS_SHOW);
 			that = null;

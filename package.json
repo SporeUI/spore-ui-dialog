@@ -1,6 +1,6 @@
 {
   "name": "spore-ui-dialog",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "基本对话框UI",
   "main": "index.js",
   "scripts": {
@@ -41,7 +41,7 @@
     "pug-loader": "^2.3.0",
     "run-sequence": "^1.2.2",
     "spore-kit-fn": "^0.1.2",
-    "spore-mock": "^0.3.0",
+    "spore-mock": "^0.3.2",
     "style-loader": "^0.16.1",
     "vconsole-webpack-plugin": "^1.1.2",
     "webpack": "^2.3.2"
@@ -50,5 +50,6 @@
   "bugs": {
     "url": "https://github.com/SporeUI/spore-ui-dialog/issues"
   },
-  "homepage": "https://github.com/SporeUI/spore-ui-dialog#readme"
+  "homepage": "https://github.com/SporeUI/spore-ui-dialog#readme",
+  "dependencies": {}
 }

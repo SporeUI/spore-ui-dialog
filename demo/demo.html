@@ -25,6 +25,7 @@
 	margin-right: 5px;
 }
 .p-qrbox{
+	position: relative;
 	margin: 30px 20px 10px;
 }
 .p-qrbox img{
@@ -48,6 +49,22 @@
 		<div class="item">
 			<button type="button" class="btn btn-primary btn-lg btn-block" id="tip-simple">基本tip</button>
 			<p class="tip">最简版本</p>
+		</div>
+		<div class="item">
+			<button type="button" class="btn btn-primary btn-lg btn-block" id="tip-long-text">显示一段长文本</button>
+			<p class="tip">显示长文本</p>
+		</div>
+		<div class="item">
+			<button type="button" class="btn btn-primary btn-lg btn-block" id="tip-top">提示显示在上方</button>
+			<p class="tip">top:'20px'</p>
+		</div>
+		<div class="item">
+			<button type="button" class="btn btn-primary btn-lg btn-block" id="tip-bottom">提示显示在下方</button>
+			<p class="tip">bottom:'20px'</p>
+		</div>
+		<div class="item">
+			<button type="button" class="btn btn-primary btn-lg btn-block" id="tip-parent">提示显示在指定区域</button>
+			<p class="tip">parentNode: $('.p-qrbox')</p>
 		</div>
 	</div>
 </div>
