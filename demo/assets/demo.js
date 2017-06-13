@@ -37,3 +37,11 @@ $(function() {
 	});
 });
 
+$(function() {
+	$('#tip-long-time').on('click', function() {
+		$dialog.tip('信息动画持续5秒', {
+			duration: 5000
+		});
+	});
+});
+

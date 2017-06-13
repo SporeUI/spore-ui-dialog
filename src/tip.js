@@ -19,7 +19,7 @@ function showTip(msg, options) {
 		box: {},
 		content: {}
 	};
-	styles.content.animation = 'sui-tip-fx ' + conf.duration + 'ms ease-in-out';
+	styles.content['animation-duration'] = conf.duration + 'ms';
 
 	if (conf.top) {
 		styles.content['vertical-align'] = 'top';
